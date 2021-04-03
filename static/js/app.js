@@ -36,10 +36,19 @@ getData();
 
 //Create a function for creating the dropdown menu - call it so the user can see the menu initially
 function dropdown() {
+
+     // set dropdown menu to variable
+     var dropdownMenu = d3.select("#selDataset");
     //Reads json data file: "subject" encompasses the entire thing
     d3.json("data/samples.json").then((subject) => {
         var names = subject.names
-        console.log(names);
+        // console.log(names);
+
+        //Loop through the id numbers and add to dropdownMenu
+        names.forEach(id => {
+            dropdownMenu.append("option").text(id).property("value");
+
+        });
 
 });
 };
