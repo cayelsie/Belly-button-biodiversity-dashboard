@@ -1,50 +1,46 @@
-function unpack(rows) {
-    return rows.map(function(row) {
-      return row;
-    });
-  }
-
 
 //Need to read the data and get needed items into variables
 function getData() {
+    //Reads json data file: "subject" encompasses the entire thing
     d3.json("data/samples.json").then((subject) => {
-      // Grab values from the data json object to build the plots
-    //   var Metadata = subject.metadata;
-    //   var age = Metadata.map(row => row.age);
+    // Grab values from the data json object to build the plots
+    //First get the metadata section and then loop through arrays to get individual items
+  
       var age = subject.metadata.map(row => row.age);
-    //   var age = unpack(subject.metadata.age);
-    //   var bbtype = subject.metadata.bbtype;
-    //   var ethnicity = subject.metadata.ethnicity;
-    //   var gender = subject.metadata.gender;
-    //   var location = subject.metadata.location;
-    //   var wfreq = subject.metadata.wfreq;
-    //   var sample = subject.metadata.id;
-    //   console.log(Metadata);
-      console.log(age);
-    });
+      var bbtype = subject.metadata.map(row => row.bbtype);
+      var ethnicity = subject.metadata.map(row => row.ethnicity);
+      var gender = subject.metadata.map(row => row.gender);
+      var location = subject.metadata.map(row => row.location);
+      var wfreq = subject.metadata.map(row => row.wfreq);
+      var sample = subject.metadata.map(row => row.id);
+   
+      console.log(sample);
 
+//       var dropdownMenu = d3.select("#selDataset");
+
+
+//     for (var i = 0; i < sample.length; i++) {
+//         var options = sample[i];
+//         var element = document.createElement("option");
+//         element.text = options;
+//         element.value = options;
+//         dropdownMenu.appendChild(element);
+//         }
+    });
 };
 
+//Call the function 
 getData();
+// console.log(bbtype);
 
 
 //Create a function for creating the dropdown menu - call it so the user can see the menu initially
+function dropdown() {
+    //Reads json data file: "subject" encompasses the entire thing
+    d3.json("data/samples.json").then((subject) => {
+        var names = subject.names
+        console.log(names);
 
-
-//Create a function for creating the table - will be called within the change option 
-
-
-//Create a function for creating the pie chart - will be called within the change option
-
-
-
-// Use D3 to create an event handler for the dropdown menu
-// d3.selectAll("body").on("change", updatePage);
-
-// function updatePage() {
-//     // Use D3 to select the dropdown menu
-//     var dropdownMenu = d3.selectAll("#selDataset").node();
-//     // Assign the dropdown menu item ID to a variable
-//     var dropdownMenuID = dropdownMenu.id;
-//     // Assign the dropdown menu option to a variable
-//     var selectedOption = dropdownMenu.value;
+});
+};
+dropdown();
