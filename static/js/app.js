@@ -1,6 +1,6 @@
-function unpack(rows, index) {
+function unpack(rows) {
     return rows.map(function(row) {
-      return row[index];
+      return row;
     });
   }
 
@@ -8,17 +8,21 @@ function unpack(rows, index) {
 //Need to read the data and get needed items into variables
 function getData() {
     d3.json("data/samples.json").then((subject) => {
-    console.log(mydata);
       // Grab values from the data json object to build the plots
-    //   var age = (subject.metadata.age);
+    //   var Metadata = subject.metadata;
+    //   var age = Metadata.map(row => row.age);
+      var age = subject.metadata.map(row => row.age);
+    //   var age = unpack(subject.metadata.age);
     //   var bbtype = subject.metadata.bbtype;
     //   var ethnicity = subject.metadata.ethnicity;
     //   var gender = subject.metadata.gender;
     //   var location = subject.metadata.location;
     //   var wfreq = subject.metadata.wfreq;
     //   var sample = subject.metadata.id;
-    //   console.log(subject);
+    //   console.log(Metadata);
+      console.log(age);
     });
+
 };
 
 getData();
@@ -35,12 +39,12 @@ getData();
 
 
 // Use D3 to create an event handler for the dropdown menu
-d3.selectAll("body").on("change", updatePage);
+// d3.selectAll("body").on("change", updatePage);
 
-function updatePage() {
-    // Use D3 to select the dropdown menu
-    var dropdownMenu = d3.selectAll("#selDataset").node();
-    // Assign the dropdown menu item ID to a variable
-    var dropdownMenuID = dropdownMenu.id;
-    // Assign the dropdown menu option to a variable
-    var selectedOption = dropdownMenu.value;
+// function updatePage() {
+//     // Use D3 to select the dropdown menu
+//     var dropdownMenu = d3.selectAll("#selDataset").node();
+//     // Assign the dropdown menu item ID to a variable
+//     var dropdownMenuID = dropdownMenu.id;
+//     // Assign the dropdown menu option to a variable
+//     var selectedOption = dropdownMenu.value;
