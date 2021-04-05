@@ -54,9 +54,30 @@ function dropdown() {
 };
 dropdown();
 
-
+//Function for populating panel after user selection
 function optionChanged() {
-var dropdownMenu = d3.select("#selDataset");
-var selection = dropdownMenu.property("value");
-console.log(selection);
+
+    //Set dropdown menu to a variable
+    var dropdownMenu = d3.select("#selDataset");
+
+    //Set user selection to a variable
+    var selection = dropdownMenu.property("value");
+    // console.log(selection);
+
+    //Set panel area to a variable
+    var panel = d3.select("#sample-metadata");
+
+   //Reads json data file: "subject" encompasses the entire thing
+   d3.json("data/samples.json").then((subject) => {
+    
+    //Select metadata from JSON
+    var data = subject.metadata;
+
+    //Filter the metadata by the user selection of id; change id to string form
+    var selectData = data.filter(item => item.id.toString() === selection)[0];
+    panel.html(""); 
+    Object.entries(selectData).forEach((set) => {
+            panel.append("h5").text(set[0] + ": " + set[1]);
+        });
+   });
 };
