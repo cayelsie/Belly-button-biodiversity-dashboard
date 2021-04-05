@@ -53,3 +53,10 @@ function dropdown() {
 });
 };
 dropdown();
+
+
+function optionChanged() {
+var dropdownMenu = d3.select("#selDataset");
+var selection = dropdownMenu.property("value");
+console.log(selection);
+};
