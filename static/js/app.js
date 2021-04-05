@@ -75,8 +75,14 @@ function optionChanged() {
 
     //Filter the metadata by the user selection of id; change id to string form
     var selectData = data.filter(item => item.id.toString() === selection)[0];
-    panel.html(""); 
+
+    //Reset panel each time
+    panel.html("");
+    
+    //Loop through key/value pairs in selected metadata
     Object.entries(selectData).forEach((set) => {
+
+    //Append the panel area as an h5 element with each key/value pair
             panel.append("h5").text(set[0] + ": " + set[1]);
         });
    });
