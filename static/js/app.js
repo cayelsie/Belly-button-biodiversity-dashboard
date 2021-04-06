@@ -105,17 +105,20 @@ function buildChart(newID) {
         
         //Set up trace for horizontal bar graph
         var trace = [{
-            y: otu_ids.slice(0, 10).map(x => `OTU ID ${x}`),
-            x: sampleValues.slice(0, 10),
+            y: otu_ids.slice(0, 10).reverse().map(x => `OTU ID ${x}`),
+            x: sampleValues.slice(0, 10).reverse(),
+            text: otu_labels,
             type: "bar",
             orientation: "h"
         }];
 
         //Set up layout for horizontal bar graph
         var layout = {
-            title: "Amount and Type of Bacteria Found",
-            xaxis: { title: "otu_id" },
-            yaxis: { title: "sample values" }
+            title: "Top 10 OTUs Found",
+            xaxis: { title: "Sample Values" },
+            height: 600,
+            width: 350
+           
         };
 
         //Plot the bar graph
@@ -126,18 +129,21 @@ function buildChart(newID) {
             x: otu_ids,
             y: sampleValues,
             mode: "markers",
+            text: otu_labels,
             marker: {
                 size: sampleValues,
-                color: [35, 10, 50, 40, 18, 30],
-                colorscale: [[0, 'rgb(200, 255, 200)'], [1, 'rgb(0, 100, 0)']],
-                cmin: 0,
-                cmax: 700
+                // color: [35, 10, 50, 40, 18, 30],
+                color: otu_ids,
+                // colorscale: [[0, 'rgb(200, 255, 200)'], [1, 'rgb(0, 100, 0)']],
+                colorscale: "Jet"
+                // cmin: 0,
+                // cmax: 300
             }
         }];
 
         //Set up layout for bubble char
         var bubble_layout = {
-            title: "Bacteria Bubble Chart",
+            // title: "Bacteria Bubble Chart",
             xaxis: {title: "OTU ID"}
         };
 
