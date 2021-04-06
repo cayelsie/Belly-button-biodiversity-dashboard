@@ -94,13 +94,16 @@ function buildChart(newID) {
         var samples = subject.samples;
         console.log(samples);
 
+        //Filter the samples by the user's ID selection, select 0 for value only
         var selectSample = samples.filter(item => item.id === newID)[0];
         console.log(selectSample);
 
+        //Pull sample values, otu id, and otu labels into variables
         var sampleValues = selectSample.sample_values
         var otu_ids = selectSample.otu_ids
         var otu_labels = selectSample.otu_labels
-
+        
+        //Set up trace for horizontal bar graph
         var trace = [{
             y: otu_ids.slice(0, 10).map(x => `OTU ID ${x}`),
             x: sampleValues.slice(0, 10),
@@ -108,24 +111,30 @@ function buildChart(newID) {
             orientation: "h"
         }];
 
+        //Set up layout for horizontal bar graph
         var layout = {
             title: "Amount and Type of Bacteria Found",
             xaxis: { title: "otu_id" },
             yaxis: { title: "sample values" }
         };
+
+        //Plot the bar graph
         Plotly.newPlot("bar", trace, layout);
 
+        //Set up trace for bubble chart
         var bubble_trace = [{
             x: otu_ids,
             y: sampleValues,
             mode: "markers"
         }];
 
+        //Set up layout for bubble char
         var bubble_layout = {
             title: "Bacteria Bubble Chart",
             xaxis: {title: "OTU ID"}
         };
 
+        //Plot bubble chart
         Plotly.newPlot("bubble", bubble_trace, bubble_layout);
 
     });
