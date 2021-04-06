@@ -46,7 +46,7 @@ function dropdown() {
 };
 dropdown();
 
-//Function for populating panel after user selection
+//Function for on change/user selection
 function optionChanged(newID) {
     createTable(newID);
     buildChart(newID);
@@ -84,7 +84,7 @@ function optionChanged(newID) {
 //Note that it won't allow selection of 940 from the beginning. Must select it after something else
 
 
-//Function for populating bar graph after user selection
+//Function for populating bar graph after user selection from dropdown
 function buildChart(newID) {
 
     //Reads json data file: "subject" encompasses the entire thing
@@ -125,7 +125,14 @@ function buildChart(newID) {
         var bubble_trace = [{
             x: otu_ids,
             y: sampleValues,
-            mode: "markers"
+            mode: "markers",
+            marker: {
+                size: sampleValues,
+                color: [35, 10, 50, 40, 18, 30],
+                colorscale: [[0, 'rgb(200, 255, 200)'], [1, 'rgb(0, 100, 0)']],
+                cmin: 0,
+                cmax: 700
+            }
         }];
 
         //Set up layout for bubble char
@@ -141,6 +148,8 @@ function buildChart(newID) {
 
 };
 
+
+//Function for populating the panel after selection from dropdown
 function createTable(newID) {
     //Set panel area to a variable
     var panel = d3.select("#sample-metadata");
