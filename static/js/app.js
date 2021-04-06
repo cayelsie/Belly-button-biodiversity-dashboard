@@ -96,12 +96,22 @@ function buildChart(newID) {
 
         //Filter the samples by the user's ID selection, select 0 for value only
         var selectSample = samples.filter(item => item.id === newID)[0];
-        console.log(selectSample);
+        // console.log(selectSample);
 
         //Pull sample values, otu id, and otu labels into variables
         var sampleValues = selectSample.sample_values
         var otu_ids = selectSample.otu_ids
         var otu_labels = selectSample.otu_labels
+
+        //Get metadata from JSON to build gauge
+         var meta = subject.metadata;
+
+         //Filter the metadata by the user selection of id; change id to string form
+        var metaFilter = meta.filter(row => row.id.toString() === newID)[0];
+   
+        //Get the washing frequency
+        var wfreq = metaFilter.wfreq;
+        console.log(wfreq);
         
         //Set up trace for horizontal bar graph
         var trace = [{
@@ -141,14 +151,19 @@ function buildChart(newID) {
             }
         }];
 
-        //Set up layout for bubble char
+        //Set up layout for bubble chart
         var bubble_layout = {
             // title: "Bacteria Bubble Chart",
-            xaxis: {title: "OTU ID"}
+            xaxis: {title: "OTU ID"},
+            yaxis: {title: "Sample Values"},
+            height: 500,
+            width: 1100
         };
 
         //Plot bubble chart
         Plotly.newPlot("bubble", bubble_trace, bubble_layout);
+
+
 
     });
 
