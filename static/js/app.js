@@ -164,7 +164,16 @@ function buildChart(newID) {
         Plotly.newPlot("bubble", bubble_trace, bubble_layout);
 
         //Set up trace for gauge chart
-        var gauge_trace = [{
+        var gauge_trace = [{ type: 'scatter',
+        x: [0], y:[0],
+         marker: {size: 28, color:'850000'},
+         showlegend: false,
+        //  name: 'speed',
+        //  text: level,
+         hoverinfo: 'text+name'},
+            
+            
+            {
             type: "pie",
             showlegend: false,
             hole: 0.6,
@@ -180,36 +189,71 @@ function buildChart(newID) {
             }
         }];
 
-        var degrees = 115, radius = .6;
+        var degrees = 180, radius = .6;
         var radians = degrees * Math.PI / 180;
         var x = -1 * radius * Math.cos(radians);
         var y = radius * Math.sin(radians);
 
+        var mainPath = 'M -.0 -0.025 L .0 0.025 L ',
+	    pathX = String(x),
+	    space = ' ',
+	    pathY = String(y),
+	    pathEnd = ' Z';
+        var path = mainPath.concat(pathX,space,pathY,pathEnd);
+
         var layout = {
 
-            'shapes': [
-                {
-                    'type': 'path',
-                    'path': 'M 0.235 0.5 L 0.24 0.62 L 0.245 0.5 Z',
-                    'fillcolor': 'rgba(44, 160, 101, 0.5)',
-                    'line': {
-                        'width': 0.5
-                    },
-                    'xref': 'paper',
-                    'yref': 'paper'
+            shapes:[{
+                type: 'path',
+                path: path,
+                fillcolor: '850000',
+                line: {
+                  color: '850000'
                 }
-            ],
+              }],
 
-            'annotations': [
-                {
-                    'xref': 'paper',
-                    'yref': 'paper',
-                    'x': 0.23,
-                    'y': 0.45,
-                    'text': '',
-                    'showarrow': false
-                }
-            ],
+
+            // 'shapes': [
+            //     {
+            //         'type': 'path',
+            //         'path': 'M 0.235 0.5 L 0.24 0.62 L 0.245 0.5 Z',
+            //         'fillcolor': 'rgba(44, 160, 101, 0.5)',
+            //         'line': {
+            //             'width': 0.5
+            //         },
+            //         'xref': 'paper',
+            //         'yref': 'paper'
+            //     }
+            // ],
+
+
+                   // 'shapes': [
+            //     {
+            //         'type': 'path',
+            //         'path': 'M 0.235 0.5 L 0.24 0.62 L 0.245 0.5 Z',
+            //         'fillcolor': 'rgba(44, 160, 101, 0.5)',
+            //         'line': {
+            //             'width': 0.5
+            //         },
+            //         'xref': 'paper',
+            //         'yref': 'paper'
+            //     }
+            // ],
+
+
+
+
+
+            // 'annotations': [
+            //     {
+            //         'xref': 'paper',
+            //         'yref': 'paper',
+            //         'x': 0.23,
+            //         'y': 0.45,
+            //         'text': '',
+            //         'showarrow': false
+            //     }
+            // ],
             // shapes:[{
             //     type: 'line',
             //     x0: 0,
@@ -221,7 +265,9 @@ function buildChart(newID) {
             //       width: 8
             //     }
             //   }],
-            title: "Belly Button Washing Frequency <br> Scrubs per Week",
+            title: "<b>Belly Button Washing Frequency</b> <br> Scrubs per Week",
+            height: 700,
+            width: 700,
             xaxis: {visible: false, range: [-1, 1]},
             yaxis: {visible: false, range: [-1, 1]}
           };
