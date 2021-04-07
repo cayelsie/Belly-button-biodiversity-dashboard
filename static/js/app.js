@@ -174,6 +174,7 @@ function buildChart(newID) {
             direction: "clockwise",
             textinfo: "text",
             textposition: "inside",
+            hoverinfo: "none",
             marker: {
                 colors: ["deeppink", "red", "orangered", "orange", "yellow", "green", "blue", "purple", "indigo", "white"],
             }
@@ -185,6 +186,30 @@ function buildChart(newID) {
         var y = radius * Math.sin(radians);
 
         var layout = {
+
+            'shapes': [
+                {
+                    'type': 'path',
+                    'path': 'M 0.235 0.5 L 0.24 0.62 L 0.245 0.5 Z',
+                    'fillcolor': 'rgba(44, 160, 101, 0.5)',
+                    'line': {
+                        'width': 0.5
+                    },
+                    'xref': 'paper',
+                    'yref': 'paper'
+                }
+            ],
+
+            'annotations': [
+                {
+                    'xref': 'paper',
+                    'yref': 'paper',
+                    'x': 0.23,
+                    'y': 0.45,
+                    'text': '',
+                    'showarrow': false
+                }
+            ],
             // shapes:[{
             //     type: 'line',
             //     x0: 0,
@@ -196,7 +221,7 @@ function buildChart(newID) {
             //       width: 8
             //     }
             //   }],
-            title: "Belly Button Washing Frequency",
+            title: "Belly Button Washing Frequency <br> Scrubs per Week",
             xaxis: {visible: false, range: [-1, 1]},
             yaxis: {visible: false, range: [-1, 1]}
           };
