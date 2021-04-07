@@ -163,6 +163,44 @@ function buildChart(newID) {
         //Plot bubble chart
         Plotly.newPlot("bubble", bubble_trace, bubble_layout);
 
+        //Set up trace for gauge chart
+        var gauge_trace = [{
+            type: "pie",
+            showlegend: false,
+            hole: 0.6,
+            rotation: 90,
+            values: [100/9, 100/9, 100/9, 100/9, 100/9, 100/9, 100/9, 100/9, 100/9, 100],
+            text: ["0-1", "1-2", "2-3", "3-4", "4-5", "5-6", "6-7", "7-8", "8-9", ""],
+            direction: "clockwise",
+            textinfo: "text",
+            textposition: "inside",
+            marker: {
+                colors: ["deeppink", "red", "orangered", "orange", "yellow", "green", "blue", "purple", "indigo", "white"],
+            }
+        }];
+
+        var degrees = 115, radius = .6;
+        var radians = degrees * Math.PI / 180;
+        var x = -1 * radius * Math.cos(radians);
+        var y = radius * Math.sin(radians);
+
+        var layout = {
+            // shapes:[{
+            //     type: 'line',
+            //     x0: 0,
+            //     y0: 0,
+            //     x1: x,
+            //     y1: 0.5,
+            //     line: {
+            //       color: 'black',
+            //       width: 8
+            //     }
+            //   }],
+            title: "Belly Button Washing Frequency",
+            xaxis: {visible: false, range: [-1, 1]},
+            yaxis: {visible: false, range: [-1, 1]}
+          };
+          Plotly.newPlot("gauge", gauge_trace, layout);
 
 
     });
