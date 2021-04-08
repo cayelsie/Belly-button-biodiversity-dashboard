@@ -1,29 +1,4 @@
 
-//Need to read the data and get needed items into variables
-function getData() {
-    //Reads json data file: "subject" encompasses the entire thing
-    d3.json("data/samples.json").then((subject) => {
-        // Grab values from the data json object to build the plots
-        //First get the metadata section and then loop through arrays to get individual items
-
-        var age = subject.metadata.map(row => row.age);
-        var bbtype = subject.metadata.map(row => row.bbtype);
-        var ethnicity = subject.metadata.map(row => row.ethnicity);
-        var gender = subject.metadata.map(row => row.gender);
-        var location = subject.metadata.map(row => row.location);
-        var wfreq = subject.metadata.map(row => row.wfreq);
-        var sample = subject.metadata.map(row => row.id);
-
-        console.log(sample);
-
-    });
-};
-
-//Call the function 
-getData();
-// console.log(bbtype);
-
-
 //Create a function for creating the dropdown menu - call it so the user can see the menu initially
 function dropdown() {
 
@@ -39,6 +14,8 @@ function dropdown() {
             dropdownMenu.append("option").text(id).property("value");
 
         });
+
+        //Call later functions for making the panel & the chart so they are initially displayed
         createTable(names[0])
         buildChart(names[0])
 
@@ -50,39 +27,8 @@ dropdown();
 function optionChanged(newID) {
     createTable(newID);
     buildChart(newID);
-    //Set dropdown menu to a variable
-    // var dropdownMenu = d3.select("#selDataset");
 
-    // //Set user selection to a variable
-    // var selection = dropdownMenu.property("value");
-    // console.log(selection);
-
-    //Set panel area to a variable
-    //     var panel = d3.select("#sample-metadata");
-
-    //    //Reads json data file: "subject" encompasses the entire thing
-    //    d3.json("data/samples.json").then((subject) => {
-
-    //     //Select metadata from JSON
-    //     var data = subject.metadata;
-
-    //     //Filter the metadata by the user selection of id; change id to string form
-    //     var selectData = data.filter(item => item.id.toString() === newID)[0];
-
-    //     //Reset panel each time
-    //     panel.html("");
-
-    //     //Loop through key/value pairs in selected metadata
-    //     Object.entries(selectData).forEach((set) => {
-
-    //     //Append the panel area as an h5 element with each key/value pair
-    //             panel.append("h5").text(set[0] + ": " + set[1]);
-    //         });
-    //    });
 };
-
-//Note that it won't allow selection of 940 from the beginning. Must select it after something else
-
 
 //Function for populating bar graph after user selection from dropdown
 function buildChart(newID) {
@@ -99,20 +45,20 @@ function buildChart(newID) {
         // console.log(selectSample);
 
         //Pull sample values, otu id, and otu labels into variables
-        var sampleValues = selectSample.sample_values
-        var otu_ids = selectSample.otu_ids
-        var otu_labels = selectSample.otu_labels
+        var sampleValues = selectSample.sample_values;
+        var otu_ids = selectSample.otu_ids;
+        var otu_labels = selectSample.otu_labels;
 
         //Get metadata from JSON to build gauge
-         var meta = subject.metadata;
+        var meta = subject.metadata;
 
-         //Filter the metadata by the user selection of id; change id to string form
+        //Filter the metadata by the user selection of id; change id to string form
         var metaFilter = meta.filter(row => row.id.toString() === newID)[0];
-   
-        //Get the washing frequency
+
+        //Get the washing frequency into a variable
         var wfreq = metaFilter.wfreq;
         console.log(wfreq);
-        
+
         //Set up trace for horizontal bar graph
         var trace = [{
             y: otu_ids.slice(0, 10).reverse().map(x => `OTU ID ${x}`),
@@ -128,14 +74,14 @@ function buildChart(newID) {
             xaxis: { title: "Sample Values" },
             height: 600,
             width: 350
-           
+
         };
 
         //Plot the bar graph
         Plotly.newPlot("bar", trace, layout);
 
         //Set up trace for bubble chart
-        var bubble_trace = [{
+        var bubbleTrace = [{
             x: otu_ids,
             y: sampleValues,
             mode: "markers",
@@ -152,33 +98,34 @@ function buildChart(newID) {
         }];
 
         //Set up layout for bubble chart
-        var bubble_layout = {
+        var bubbleLayout = {
             // title: "Bacteria Bubble Chart",
-            xaxis: {title: "OTU ID"},
-            yaxis: {title: "Sample Values"},
+            xaxis: { title: "OTU ID" },
+            yaxis: { title: "Sample Values" },
             height: 500,
             width: 1100
         };
 
         //Plot bubble chart
-        Plotly.newPlot("bubble", bubble_trace, bubble_layout);
+        Plotly.newPlot("bubble", bubbleTrace, bubbleLayout);
 
         //Set up trace for gauge chart
-        var gauge_trace = [{ type: 'scatter',
-        x: [0], y:[0],
-         marker: {size: 28, color:'850000'},
-         showlegend: false,
-        //  name: 'speed',
-        //  text: level,
-         hoverinfo: 'text+name'},
-            
-            
-            {
+        var gaugeTrace = [{
+
+            //Set up needle
+            type: 'scatter',
+            x: [0], y: [0],
+            marker: { size: 28, color: '850000' },
+            showlegend: false
+        },
+
+        // Set up gauge panel
+        {
             type: "pie",
             showlegend: false,
             hole: 0.6,
             rotation: 90,
-            values: [100/9, 100/9, 100/9, 100/9, 100/9, 100/9, 100/9, 100/9, 100/9, 100],
+            values: [100 / 9, 100 / 9, 100 / 9, 100 / 9, 100 / 9, 100 / 9, 100 / 9, 100 / 9, 100 / 9, 100],
             text: ["0-1", "1-2", "2-3", "3-4", "4-5", "5-6", "6-7", "7-8", "8-9", ""],
             direction: "clockwise",
             textinfo: "text",
@@ -189,129 +136,45 @@ function buildChart(newID) {
             }
         }];
 
-        // function calculateDegrees() {
-        // var degrees = 0;
-        // if (wfreq === 0) {
-        //     degrees = 10;
-        // }
-        // if (wfreq === 1) {
-        //     degrees = 20;
-        // }
-        // if (wfreq === 2) {
-        //     degrees = 40;
-        // }
-        // if (wfreq === 3) {
-        //     degrees = 60;
-        // }
-        // if (wfreq === 4) {
-        //     degrees = 80;
-        // }
-        // if (wfreq === 5) {
-        //     degrees = 100;
-        // }
-        // if (wfreq === 6) {
-        //     degrees = 120;
-        // }
-
-        // else {
-        // degrees = 30;
-        // }; 
-        //     console.log(degrees);
-        // };
-        // calculateDegrees();
-        // var degrees = 160, radius = .6;
-        var degrees = (wfreq * 20), radius = .6;
+        //Equations for controlling the gauge needle according to data
+        var degrees = (wfreq * 20);
+        var radius = .6;
         var radians = degrees * Math.PI / 180;
         var x = -1 * radius * Math.cos(radians);
         var y = radius * Math.sin(radians);
 
-      
-    
-
+        //Path for the triangle of needle
         var mainPath = 'M -.0 -0.025 L .0 0.025 L ',
-	    pathX = String(x),
-	    space = ' ',
-	    pathY = String(y),
-	    pathEnd = ' Z';
-        var path = mainPath.concat(pathX,space,pathY,pathEnd);
+            pathX = String(x),
+            space = ' ',
+            pathY = String(y),
+            pathEnd = ' Z';
+        var path = mainPath.concat(pathX, space, pathY, pathEnd);
 
+        //Layout for gauge chart
         var layout = {
 
-            shapes:[{
+            shapes: [{
                 type: 'path',
                 path: path,
                 fillcolor: '850000',
                 line: {
-                  color: '850000'
+                    color: '850000'
                 }
-              }],
+            }],
 
-
-            // 'shapes': [
-            //     {
-            //         'type': 'path',
-            //         'path': 'M 0.235 0.5 L 0.24 0.62 L 0.245 0.5 Z',
-            //         'fillcolor': 'rgba(44, 160, 101, 0.5)',
-            //         'line': {
-            //             'width': 0.5
-            //         },
-            //         'xref': 'paper',
-            //         'yref': 'paper'
-            //     }
-            // ],
-
-
-                   // 'shapes': [
-            //     {
-            //         'type': 'path',
-            //         'path': 'M 0.235 0.5 L 0.24 0.62 L 0.245 0.5 Z',
-            //         'fillcolor': 'rgba(44, 160, 101, 0.5)',
-            //         'line': {
-            //             'width': 0.5
-            //         },
-            //         'xref': 'paper',
-            //         'yref': 'paper'
-            //     }
-            // ],
-
-
-
-
-
-            // 'annotations': [
-            //     {
-            //         'xref': 'paper',
-            //         'yref': 'paper',
-            //         'x': 0.23,
-            //         'y': 0.45,
-            //         'text': '',
-            //         'showarrow': false
-            //     }
-            // ],
-            // shapes:[{
-            //     type: 'line',
-            //     x0: 0,
-            //     y0: 0,
-            //     x1: x,
-            //     y1: 0.5,
-            //     line: {
-            //       color: 'black',
-            //       width: 8
-            //     }
-            //   }],
             title: "<b>Belly Button Washing Frequency</b> <br> Scrubs per Week",
             height: 600,
             width: 600,
-            xaxis: {visible: false, range: [-1, 1]},
-            yaxis: {visible: false, range: [-1, 1]}
-          };
-          Plotly.newPlot("gauge", gauge_trace, layout);
+            xaxis: { visible: false, range: [-1, 1] },
+            yaxis: { visible: false, range: [-1, 1] }
+        };
 
-
+        //Plot gauge chart
+        Plotly.newPlot("gauge", gaugeTrace, layout);
     });
 
 };
-
 
 //Function for populating the panel after selection from dropdown
 function createTable(newID) {
