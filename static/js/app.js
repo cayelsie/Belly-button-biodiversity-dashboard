@@ -190,18 +190,37 @@ function buildChart(newID) {
         }];
 
         // function calculateDegrees() {
-        var degrees = 0;
-        if (wfreq === 0 || wfreq === 1) {
-            degrees = 10;
-        }
-        else {
-        degrees = 30;
-        }; 
+        // var degrees = 0;
+        // if (wfreq === 0) {
+        //     degrees = 10;
+        // }
+        // if (wfreq === 1) {
+        //     degrees = 20;
+        // }
+        // if (wfreq === 2) {
+        //     degrees = 40;
+        // }
+        // if (wfreq === 3) {
+        //     degrees = 60;
+        // }
+        // if (wfreq === 4) {
+        //     degrees = 80;
+        // }
+        // if (wfreq === 5) {
+        //     degrees = 100;
+        // }
+        // if (wfreq === 6) {
+        //     degrees = 120;
+        // }
+
+        // else {
+        // degrees = 30;
+        // }; 
         //     console.log(degrees);
         // };
         // calculateDegrees();
         // var degrees = 160, radius = .6;
-        radius = .6;
+        var degrees = (wfreq * 20), radius = .6;
         var radians = degrees * Math.PI / 180;
         var x = -1 * radius * Math.cos(radians);
         var y = radius * Math.sin(radians);
