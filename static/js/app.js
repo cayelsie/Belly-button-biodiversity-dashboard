@@ -189,10 +189,25 @@ function buildChart(newID) {
             }
         }];
 
-        var degrees = 180, radius = .6;
+        // function calculateDegrees() {
+        var degrees = 0;
+        if (wfreq === 0 || wfreq === 1) {
+            degrees = 10;
+        }
+        else {
+        degrees = 30;
+        }; 
+        //     console.log(degrees);
+        // };
+        // calculateDegrees();
+        // var degrees = 160, radius = .6;
+        radius = .6;
         var radians = degrees * Math.PI / 180;
         var x = -1 * radius * Math.cos(radians);
         var y = radius * Math.sin(radians);
+
+      
+    
 
         var mainPath = 'M -.0 -0.025 L .0 0.025 L ',
 	    pathX = String(x),
@@ -266,8 +281,8 @@ function buildChart(newID) {
             //     }
             //   }],
             title: "<b>Belly Button Washing Frequency</b> <br> Scrubs per Week",
-            height: 700,
-            width: 700,
+            height: 600,
+            width: 600,
             xaxis: {visible: false, range: [-1, 1]},
             yaxis: {visible: false, range: [-1, 1]}
           };
