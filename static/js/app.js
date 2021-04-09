@@ -116,7 +116,8 @@ function buildChart(newID) {
             type: 'scatter',
             x: [0], y: [0],
             marker: { size: 28, color: '850000' },
-            showlegend: false
+            showlegend: false,
+            hoverinfo: "none"
         },
 
         // Set up gauge panel
